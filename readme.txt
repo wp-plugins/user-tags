@@ -27,7 +27,10 @@ Users can add new tags.
 == Changelog ==
 
 = 0.1 =
-First Release
+** Code formatting
+
+= 0.1 =
+**First Release
 
 == Upgrade Notice ==
 
@@ -53,5 +56,6 @@ Filters Available
 Shortcode
 ======
 [user_tags], will generate the User Tags UI in frontend and save the tags
+
 == Credits ==
 Reference : http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress

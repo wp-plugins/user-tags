@@ -4,7 +4,7 @@
  * Author: Umesh Kumar<umeshsingla05@gmail.com>
  * Author URI:	http://codechutney.com
  * Description:	Adds User Taxonomy functionality
- * Version: 0.1
+ * Version: 0.1.1
  * Reference :  http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress
  * Text Domain : user_taxonomy
  */
@@ -140,12 +140,11 @@ class UserTags {
                 }
             } ?>
             <div class="wrap nosubsub user-taxonomies-page">
-                <h2><?php _e ( 'User Taxonomies', 'rtmedia' ); ?></h2>
+                <h2><?php _e ( 'User Taxonomies', WP_UT_TRANSLATION_DOMAIN ); ?></h2>
                 <div id="col-container">
                     <div id="col-right"><?php
                         $uttaxonomylisttable = new UserTagsList();
-                        $uttaxonomylisttable->prepare_items(); 
-                        //                         $rtmediaproalbummediaList->views(); ?>
+                        $uttaxonomylisttable->prepare_items(); ?>
                         <form method="post"> <?php
                             wp_nonce_field('taxonomy_bulk_action', 'taxonomy_bulk_action');
                             $uttaxonomylisttable->display(); ?>
