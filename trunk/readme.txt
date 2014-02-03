@@ -27,10 +27,10 @@ Users can add new tags.
 == Changelog ==
 
 = 0.1 =
-** Code formatting
+ Code formatting
 
 = 0.1 =
-**First Release
+ First Release
 
 == Upgrade Notice ==
 
@@ -45,17 +45,17 @@ Visit https://github.com/UmeshSingla/user-tags for support
 2. Manage Tags for Custom User Taxonomy Food Like
 3. Tags option in User profile Page
 4. Template page for tag, listing all the associated users
+== Other Notes ==
 
 Filters Available
-======
 1. 'ut_template_heading' => Can be used to modify Template Page Heading 
 2. 'ut_tepmplate_content' => Can be used to modify users list style, 
         args => 1 , $users => List of Users
 3. 'ut_template_content_empty'  => Display custom message, if there are no users for term
 
 Shortcode
-======
+
 [user_tags], will generate the User Tags UI in frontend and save the tags
 
 == Credits ==
-Reference : http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress
+[Justin Tadlock][http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress]
