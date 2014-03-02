@@ -41,7 +41,7 @@ Requires Wordpress 3.0 atleast
 
 == Frequently Asked Questions ==
 
-= What if tags template are not working for me? =
+= What if tags template is not working for me? =
 
 You just need to save permalinks once, and it will work absolutely fine for you afterwards.
 
