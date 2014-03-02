@@ -3,7 +3,7 @@ Contributors: UmeshSingla
 Tags: Tags, taxonomies, user taxonomy, user tags
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 3.1
+Requires at least: 3.0
 Tested up to: WordPress 3.8.1
 Stable tag: trunk
 
@@ -34,7 +34,7 @@ Users can add new tags.
 
 == Upgrade Notice ==
 
-Requires Wordpress 3.6 atleast
+Requires Wordpress 3.0 atleast
 
 == Frequently Asked Questions ==
 Visit https://github.com/UmeshSingla/user-tags for support
