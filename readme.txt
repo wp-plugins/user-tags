@@ -26,7 +26,10 @@ Users can add new tags.
 
 == Changelog ==
 
-= 0.1 =
+= 0.1.2 =
+ Fixes Taxonomy length error
+
+= 0.1.1 =
  Code formatting
 
 = 0.1 =
