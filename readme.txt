@@ -40,11 +40,13 @@ Users can add new tags.
 Requires Wordpress 3.0 atleast
 
 == Frequently Asked Questions ==
-= Visit https://github.com/UmeshSingla/user-tags for support =
 
 = What if tags template are not working for me? =
 
 You just need to save permalinks once, and it will work absolutely fine for you afterwards.
+
+= Visit https://github.com/UmeshSingla/user-tags for support =
+
 == Screenshots ==
 
 1. Taxonomy Option under Users
