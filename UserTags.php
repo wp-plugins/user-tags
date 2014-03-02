@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:	User Tags
+ * Plugin Name:	User Tags for Wordpress
  * Author: Umesh Kumar<umeshsingla05@gmail.com>
  * Author URI:	http://codechutney.com
  * Description:	Adds User Taxonomy functionality
