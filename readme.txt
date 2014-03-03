@@ -26,6 +26,12 @@ Users can add new tags.
 
 == Changelog ==
 
+= 0.1.3 =
+
+Fixes Page not found error for tag templates
+Fixes tags update for other users by administrator, causing overwrite to current logged in users taxonomy
+Improved Template Styling
+
 = 0.1.2 =
  Fixes Taxonomy length error
 
@@ -41,7 +47,7 @@ Requires Wordpress 3.0 atleast
 
 == Frequently Asked Questions ==
 
-= What if tags template is not working for me? =
+= What if tags template are not working for me? =
 
 You just need to save permalinks once, and it will work absolutely fine for you afterwards.
 
