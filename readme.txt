@@ -29,7 +29,9 @@ Users can add new tags.
 = 0.1.3 =
 
 Fixes Page not found error for tag templates
+
 Fixes tags update for other users by administrator, causing overwrite to current logged in users taxonomy
+
 Improved Template Styling
 
 = 0.1.2 =
