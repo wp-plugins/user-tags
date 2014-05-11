@@ -66,15 +66,16 @@ You just need to save permalinks once, and it will work absolutely fine for you 
 4. Template page for tag, listing all the associated users
 == Other Notes ==
 
-Filters Available
-1. 'ut_template_heading' => Can be used to modify Template Page Heading 
-2. 'ut_tepmplate_content' => Can be used to modify users list style, 
+= Filters Available =
+* 'ut_template_heading' => Can be used to modify Template Page Heading 
+* 'ut_tepmplate_content' => Can be used to modify users list style, 
         args => 1 , $users => List of Users
-3. 'ut_template_content_empty'  => Display custom message, if there are no users for term
+* 'ut_template_content_empty'  => Display custom message, if there are no users for term
+* 'ut_tag_cloud_heading', Allow to modify Tag cloud heading
 
-Shortcode
+= Shortcode =
 
-[user_tags], will generate the User Tags UI in frontend and save the tags
+* [user_tags], will generate the User Tags UI in frontend and save the tags
 
 == Credits ==
 [Justin Tadlock][http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress]
