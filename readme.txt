@@ -78,4 +78,4 @@ You just need to save permalinks once, and it will work absolutely fine for you 
 * [user_tags], will generate the User Tags UI in frontend and save the tags
 
 == Credits ==
-[Justin Tadlock][http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress]
+[Justin Tadlock](http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress)
