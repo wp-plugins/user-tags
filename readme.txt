@@ -26,6 +26,10 @@ Users can add new tags.
 
 == Changelog ==
 
+= 1.1 =
+
+* Fix: All tag not being deleted
+
 = 1.0 =
 
 * New: Tag Cloud to choose from most popular

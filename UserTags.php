@@ -4,7 +4,7 @@
  * Author: Umesh Kumar<umeshsingla05@gmail.com>
  * Author URI:	http://codechutney.com
  * Description:	Adds User Taxonomy functionality
- * Version: 1.0
+ * Version: 1.1
  * Reference :  http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress
  * Text Domain : user_taxonomy
  */
@@ -307,6 +307,7 @@ class UserTags {
                         
 			$terms	= wp_get_object_terms($user->ID, $taxonomy->name);
                         $num = 0; $html = ''; $user_tags = '';
+                        $choose_from_text = apply_filters('ut_tag_cloud_heading', $taxonomy->labels->choose_from_most_used, $taxonomy );
                         if(!empty($terms)){
                             foreach($terms  as $term ){
                                 $user_tags[] = $term->name;
@@ -317,7 +318,6 @@ class UserTags {
                                 $num++;
                             }
                             $user_tags = implode(',', $user_tags);
-                            $choose_from_text = apply_filters('ut_tag_cloud_heading', $taxonomy->labels->choose_from_most_used, $taxonomy );
                         } ?>
 			<table class="form-table user-profile-taxonomy">
                             <tr>
@@ -352,6 +352,9 @@ class UserTags {
                 if(!empty($taxonomy_terms)){
                     $taxonomy_terms = array_map('trim', explode(',', $taxonomy_terms));
                     $updated = wp_set_object_terms($user_id, $taxonomy_terms, $taxonomy, false);
+                }else{
+                    //No terms left, delete all terms
+                    $updated = wp_set_object_terms($user_id, array(), $taxonomy, false);
                 }
             }
 	}
