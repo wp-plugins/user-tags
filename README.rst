@@ -2,7 +2,7 @@
 User Tags
 ======
 Tags: taxonomy, user taxonomy, user tags
-Tested up to: 3.8.1
+Tested up to: 3.9.1
 Stable tag: trunk
 
 Allows creating and managing User Taxonomies from Backend
