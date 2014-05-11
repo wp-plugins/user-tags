@@ -4,7 +4,7 @@ Tags: Tags, taxonomies, user taxonomy, user tags
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.0
-Tested up to: WordPress 3.9
+Tested up to: WordPress 3.9.1
 Stable tag: trunk
 
 Adds an admin option to allow creating User Taxonomies and create tags for different taxonomies.
@@ -25,6 +25,11 @@ Users can add new tags.
 3. Go to Taxonomies under Users option to create taxonomies for User
 
 == Changelog ==
+
+= 1.0 =
+
+* New: Tag Cloud to choose from most popular
+* New: Filter 'ut_tag_cloud_heading' to change tag cloud heading
 
 = 0.1.3 =
 
