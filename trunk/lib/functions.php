@@ -52,7 +52,11 @@ function wp_ut_tag_box() {
 		?>
 		<p><?php echo _( 'No taxonomies found', WP_UT_TRANSLATION_DOMAIN ); ?></p><?php
 		return;
-	} ?>
+	}
+	if( !is_user_logged_in() ) {
+		return;
+	}
+	?>
 
 	<form name="user-tags" action="" method="post">
 	<ul class="form-table user-profile-taxonomy user-taxonomy-wrapper"><?php
