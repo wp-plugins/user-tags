@@ -49,7 +49,6 @@ function wp_ut_tag_box() {
 	wp_nonce_field( 'user-tags', 'user-tags' );
 	wp_enqueue_script('user_taxonomy_js');
 	if ( empty ( $taxonomies ) ) {
-		//Thanks @stefan for pointing out the missing _ in below line
 		?>
 		<p><?php echo __( 'No taxonomies found', WP_UT_TRANSLATION_DOMAIN ); ?></p><?php
 		return;
