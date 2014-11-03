@@ -50,7 +50,7 @@ function wp_ut_tag_box() {
 	wp_enqueue_script('user_taxonomy_js');
 	if ( empty ( $taxonomies ) ) {
 		?>
-		<p><?php echo _( 'No taxonomies found', WP_UT_TRANSLATION_DOMAIN ); ?></p><?php
+		<p><?php echo __( 'No taxonomies found', WP_UT_TRANSLATION_DOMAIN ); ?></p><?php
 		return;
 	}
 	if( !is_user_logged_in() ) {
