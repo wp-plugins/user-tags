@@ -225,10 +225,11 @@ class UserTags {
 			add_action( 'admin_notices', 'ut_taxonomy_updated' );
 		} else {
 			//Warning
-			add_action( 'admin_notices', function () {
-				echo '<div class="error">' . __( 'Taxonomy already exists', WP_UT_TRANSLATION_DOMAIN ) . '</div>';
-			} );
+			add_action( 'admin_notices',  array( $this, 'taxonomy_exists_notice') );
 		}
+	}
+	function taxonomy_exists_notice() {
+			echo '<div class="error">' . __( 'Taxonomy already exists', WP_UT_TRANSLATION_DOMAIN ) . '</div>';
 	}
 
 	/**
