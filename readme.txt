@@ -1,5 +1,6 @@
 === User Tags ===
 Contributors: UmeshSingla
+Donate link: https://www.paypal.com/
 Tags: Tags, taxonomies, user taxonomy, user tags
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -27,6 +28,14 @@ Users can add new tags.
 3. Go to Taxonomies under Users option to create taxonomies for User
 
 == Changelog ==
+
+= 1.2.6 =
+* New   - Filter: `ut_template_users` in Taxonomy template to filter the list of users before displaying
+* Fixed - handle count callback for register taxonomy (Fixes tag cloud size issue )
+
+
+= 1.2.5 =
+* Fixed - Remove PHP closures
 
 = 1.2.4 =
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name:    User Tags for Wordpress
+ * Plugin Name: User Tags for Wordpress
  * Author: Umesh Kumar<umeshsingla05@gmail.com>
  * Author URI:    http://codechutney.com
  * Description:    Adds User Taxonomy functionality
- * Version: 1.2.4
+ * Version: 1.2.6
  * Reference :  http://justintadlock.com/archives/2011/10/20/custom-user-taxonomies-in-wordpress
  * Text Domain : user_taxonomy
  */
@@ -33,8 +33,13 @@ class UserTags {
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_ut_delete_taxonomy', array( $this, 'ut_delete_taxonomy_callback' ) );
+
+		/**
+		 * Tag suggestion ajax handler
+		 */
 		add_action( 'wp_ajax_ut_load_tag_suggestions', array( $this, 'ut_load_tag_suggestions_callback' ) );
 		add_action( 'wp_ajax_nopriv_ut_load_tag_suggestions', array( $this, 'ut_load_tag_suggestions_callback' ) );
+
 		// Taxonomies
 		add_action( 'admin_enqueue_scripts', array( $this, 'ut_enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'ut_enqueue_scripts' ) );
@@ -42,7 +47,12 @@ class UserTags {
 			$this->ut_update_taxonomy_list();
 		}
 		add_action( 'registered_taxonomy', array( $this, 'ut_registered_taxonomy' ), 10, 3 );
+
+		/**
+		 * Register all the available taxonomies
+		 */
 		$this->ut_register_taxonomies();
+
 		// Menus
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_filter( 'parent_file', array( $this, 'parent_menu' ) );
@@ -83,7 +93,7 @@ class UserTags {
 
 		// Register any hooks/filters that rely on knowing the taxonomy now
 		add_filter( "manage_edit-{$taxonomy}_columns", array( $this, 'set_user_column' ) );
-		add_action( "manage_{$taxonomy}_custom_column", array( $this, 'set_user_column_values' ), 10, 3 );
+		add_filter( "manage_{$taxonomy}_custom_column", array( $this, 'set_user_column_values' ), 10, 3 );
 
 		// Save changes
 		$wp_taxonomies[ $taxonomy ]    = $args;
@@ -129,7 +139,7 @@ class UserTags {
 
 			<div id="col-container">
 				<div id="col-right"><?php
-					$uttaxonomylisttable = new UserTagsList();
+					$uttaxonomylisttable = new User_Tags_List();
 					$uttaxonomylisttable->prepare_items(); ?>
 					<form method="post"> <?php
 						wp_nonce_field( 'taxonomy_bulk_action', 'taxonomy_bulk_action' );
@@ -225,9 +235,34 @@ class UserTags {
 			add_action( 'admin_notices', 'ut_taxonomy_updated' );
 		} else {
 			//Warning
-			add_action( 'admin_notices', function () {
-				echo '<div class="error">' . __( 'Taxonomy already exists', WP_UT_TRANSLATION_DOMAIN ) . '</div>';
-			} );
+			add_action( 'admin_notices', array( $this, 'taxonomy_exists_notice' ) );
+		}
+	}
+
+	function taxonomy_exists_notice() {
+		echo '<div class="error">' . __( 'Taxonomy already exists', WP_UT_TRANSLATION_DOMAIN ) . '</div>';
+	}
+
+	/**
+	 * Function for updating the 'profession' taxonomy count.  What this does is update the count of a specific term
+	 * by the number of users that have been given the term.  We're not doing any checks for users specifically here.
+	 * We're just updating the count with no specifics for simplicity.
+	 *
+	 * See the _update_post_term_count() function in WordPress for more info.
+	 *
+	 * @param array $terms List of Term taxonomy IDs
+	 * @param object $taxonomy Current taxonomy object of terms
+	 */
+	public static function update_users_count( $terms, $taxonomy ) {
+		global $wpdb;
+
+		foreach ( (array) $terms as $term ) {
+
+			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term ) );
+
+			do_action( 'edit_term_taxonomy', $term, $taxonomy );
+			$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
+			do_action( 'edited_term_taxonomy', $term, $taxonomy );
 		}
 	}
 
@@ -242,6 +277,7 @@ class UserTags {
 			return;
 		}
 		foreach ( $ut_taxonomies as $ut_taxonomy ) {
+			global $user_tags;
 			extract( $ut_taxonomy );
 			$taxonomy_slug = ! empty( $slug ) ? $slug : ut_taxonomy_name( $name );
 			//make sure taxonomy name is less than 32
@@ -250,9 +286,9 @@ class UserTags {
 				$taxonomy_slug,
 				'user',
 				array(
-					'public'       => true,
-					'hierarchical' => false,
-					'labels'       => array(
+					'public'                => true,
+					'hierarchical'          => false,
+					'labels'                => array(
 						'name'                       => __( $name ),
 						'singular_name'              => __( $name ),
 						'menu_name'                  => __( $name ),
@@ -268,16 +304,17 @@ class UserTags {
 						'choose_from_most_used'      => __( 'Choose from the most popular ' . $name ),
 						'topic_count_text'           => __( 'Choose from the most popular ' . $name ),
 					),
-					'rewrite'      => array(
+					'rewrite'               => array(
 						'with_front' => true,
-						'slug'       => 'author/' . $taxonomy_slug // Use 'author' (default WP user slug).
+						'slug'       => 'tag/' . $taxonomy_slug // Use 'author' (default WP user slug).
 					),
-					'capabilities' => array(
+					'capabilities'          => array(
 						'manage_terms' => 'edit_users', // Using 'edit_users' cap to keep this simple.
 						'edit_terms'   => 'edit_users',
 						'delete_terms' => 'edit_users',
 						'assign_terms' => 'read',
-					)
+					),
+					'update_count_callback' => array( 'UserTags', 'update_users_count' )
 				)
 			);
 			if ( is_wp_error( $registered ) ) {
@@ -320,13 +357,28 @@ class UserTags {
 	 * Set values for custom columns in user taxonomies
 	 */
 	public function set_user_column_values( $display, $column, $term_id ) {
-		if ( empty( $columns ) ) {
+		if ( empty( $column ) ) {
 			return;
 		}
 		if ( 'users' === $column && ! empty( $_GET['taxonomy'] ) ) {
 			$term = get_term( $term_id, $_GET['taxonomy'] );
-			echo $term->count;
+
+			$count = $term->count;
+		} else {
+			return;
 		}
+		$count = number_format_i18n( $count );
+
+		$tax = get_taxonomy( $_GET['taxonomy'] );
+
+		if ( $tax->query_var ) {
+			$args = array( $tax->query_var => $term->slug );
+		} else {
+			$args = array( 'taxonomy' => $tax->name, 'term' => $term->slug );
+		}
+
+		return $count;
+//		return "<a href='" . esc_url( add_query_arg( $args, 'users.php' ) ) . "'>$count</a>";
 	}
 
 	/**
@@ -498,15 +550,23 @@ class UserTags {
 		die( 1 );
 	}
 
+	/**
+	 * Admin ajax URL
+	 */
 	function admin_ajax() {
 		?>
 		<script type="text/javascript">
 			var ajaxurl = <?php echo json_encode( admin_url( "admin-ajax.php" ) ); ?>;
 		</script><?php
 	}
+
 }
 
-add_action( 'init', 'ut_user_tags');
+/**
+ * Class object
+ */
+add_action( 'init', 'ut_user_tags' );
+
 //Flush rewrite rules
 function wp_ut_flush_rules() {
 	//Check if there is new taxonomy, if there flush rules
@@ -518,15 +578,28 @@ function wp_ut_flush_rules() {
 	}
 }
 
+/**
+ * Show admin message for taxonomy creation
+ */
 function ut_taxonomy_created() {
 	echo '<div id="message" class="updated below-h2">' . __( 'Taxonomy created', WP_UT_TRANSLATION_DOMAIN ) . '</div>';
 }
 
+/**
+ * Updating a taxonomy
+ */
 function ut_taxonomy_updated() {
 	echo '<div id="message" class="updated below-h2">' . __( 'Taxonomy updated', WP_UT_TRANSLATION_DOMAIN ) . '</div>';
 }
+
+/**
+ * Class object
+ */
 function ut_user_tags() {
-		$user_tags = new UserTags();
+	$user_tags = new UserTags();
 }
 
+/**
+ * If a new taxonomy was created, Flush rules for template
+ */
 add_action( 'init', 'wp_ut_flush_rules', 10 );
